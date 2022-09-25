@@ -1,0 +1,7 @@
+## Interface: 45613
+## Title: QuestDecline
+## Notes: Configurably declines quests shared by raid/party members
+## Version: 1.1
+## SavedVariables: QDSettings
+QuestDecline.lua
+QuestDeclineConfig.lua
