@@ -1,7 +1,6 @@
 addonName, QuestDecline = ...
-QD_DEBUG = QuestDecline.debug
 
-QuestDecline.defaults = {
+local defaults = {
 	enabled = true,
 	declineAll = false;
 	notifyOnDecline = true,
@@ -23,14 +22,14 @@ local function CreateCheckbox(name, parent, xPos, yPos, text)
 end
 
 -- sets up the options panel once the addon is loaded
-local function OnEvent(self, event, addon)
+local function OnEvent(_, _, addon)
 	if (addon ~= addonName) then
 		return
 	end
 	QuestDecline:SetupOptionsPanel()
 end
 
--- does the setup
+-- does the layout of the options menu
 function QuestDecline:SetupOptionsPanel()
 	local panelTitle = uiFrame:CreateFontString("ARTWORK", nil, "OptionsFontLarge")
 	panelTitle:SetPoint("TOPLEFT", 10, -10)
@@ -84,7 +83,7 @@ function QuestDecline:enable(name)
 	cb = getglobal("qd_cb_" .. name)
 
 	if (cb == nil) then
-		print("enable couldn't find " .. name)
+		QuestDecline:Debug("enable couldn't find " .. name)
 		return
 	end
 
@@ -97,28 +96,25 @@ function QuestDecline:disable(name)
 	cb = getglobal("qd_cb_" .. name)
 
 	if (cb == nil) then
-		print("enable couldn't find " .. name)
+		QuestDecline:Debug("disable couldn't find " .. name)
 		return
 	end
 
 	cb:Disable()
-	--cb:SetChecked(false)
-	--cb:Hide()
 end
 
 -- toggles the value of a savedvariable plugin setting
 function QuestDecline:toggle(name)
 	if (QDSettings[name] == nil) then
-		print("toggle(name) couldn't find a setting by that name")
+		QuestDecline:Debug("toggle(name) couldn't find a setting named " .. name)
 		return
 	end
 
 	QDSettings[name] = not QDSettings[name]
-	if (QD_DEBUG) then
-		print("current settings:")
-		for k, v in pairs(QDSettings) do
-			print("  " .. tostring(k) .. ":" .. tostring(v))
-		end
+
+	QuestDecline:Debug("current settings:")
+	for k, v in pairs(QDSettings) do
+		QuestDecline:Debug("  " .. tostring(k) .. ":" .. tostring(v))
 	end
 
 	return QDSettings[name]
@@ -133,17 +129,15 @@ function QuestDecline:LoadSettings()
 		QDSettings = {}
 	end
 
-	for k, v in pairs(QuestDecline.defaults) do
+	for k, v in pairs(defaults) do
 		if (type(v) ~= type(QDSettings[k])) then
 			QDSettings[k] = v
 		end
 	end
 
-	if (QD_DEBUG) then
-		print("settings as loaded:")
-		for k, v in pairs(QDSettings) do
-			print("    " .. tostring(k) .. ": " .. tostring(v))
-		end
+	QuestDecline:Debug("settings as loaded:")
+	for k, v in pairs(QDSettings) do
+		QuestDecline:Debug("    " .. tostring(k) .. ": " .. tostring(v))
 	end
 end
 
