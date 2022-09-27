@@ -1,4 +1,4 @@
-## Interface: 45613
+## Interface: 30400
 ## Title: QuestDecline
 ## Notes: Configurably declines quests shared by raid/party members
 ## Version: 1.1
