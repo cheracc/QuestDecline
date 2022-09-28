@@ -60,3 +60,9 @@ eventFrame:RegisterEvent("ADDON_LOADED")
 eventFrame:RegisterEvent("QUEST_DETAIL")
 eventFrame:RegisterEvent("PLAYER_ENTERING_WORLD")
 eventFrame:SetScript("OnEvent", OnEvent)
+
+SLASH_QD1 = "/qd"
+SlashCmdList.QD = function(_)
+	InterfaceOptionsFrame_Show()
+	InterfaceOptionsFrame_OpenToCategory("QuestDecline")
+end
